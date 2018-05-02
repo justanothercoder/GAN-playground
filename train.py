@@ -1,3 +1,4 @@
+import os
 import json
 import argparse
 
@@ -45,6 +46,7 @@ def read_checkpoint(prefix):
 def train(loader, gan):
     print_every = 100
     prefix = 'mnist/%s/%s' % (hyper_params['arch'], hyper_params['div'])
+    os.makedirs(prefix, exist_ok=True)
 
     restore_epoch, global_step = read_checkpoint(prefix=prefix)
     global_step = 0
@@ -122,7 +124,7 @@ def get_args():
 if __name__ == '__main__':
     args = get_args()
 
-    experiment = Experiment(api_key="4TQA5rOtwSEI02yTdktrxDHyK", project_name="gan-experiments")
+    experiment = Experiment(api_key=os.environ["API_KEY"], project_name="gan-experiments")
     hyper_params = dict(
         generator_lr = args.generator_lr,
         discriminator_lr = args.discriminator_lr,
